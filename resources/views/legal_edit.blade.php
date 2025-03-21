@@ -1,0 +1,112 @@
+@extends('layouts.app')
+@section('content')
+
+
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+         
+        <!-- end page title -->
+
+        <div class="row">
+             
+            <!-- end col -->
+
+            <div class="col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">legal</h4>
+                    </div>
+                    <div class="card-body">
+                        <form class="custom-validation" action="{{ route('legal.update')}}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                @method('PUT')
+                 <input type="hidden" name='id' value="{{ $legal->id }}">
+                        
+                 <div class="mb-3">
+                    <label>Type of Document .</label>
+                    <input type="text" class="form-control" name="type_of_document" placeholder="Enter Type of Document " value="{{ $legal->type_of_document}}" required>
+                    @error('type_of_document') 
+                        <span class="alert alert-danger text-center">{{ $message }}</span>
+                    @enderror
+                </div>
+            
+                        
+                          
+                        
+                            
+
+                            <div class="mb-3">
+                                <label>Upload PDF</label>
+                                <input type="file" class="form-control" name="pdf" accept=".pdf" />
+                                @error('pdf') 
+                                    <span class="alert alert-danger text-center">{{ $message }}</span>
+                                @enderror
+                            </div>
+                             
+                            <div class="mb-3">
+                                <label>Status</label>
+                                <select class="form-control" name="status">
+                                    <option value="active" {{ $legal->status == 'active' ? 'selected' : '' }}>Active</option>
+                                    <option value="deactive" {{ $legal->status  == 'deactive' ? 'selected' : '' }}>Deactive</option>
+                                </select>
+                                @error('status') 
+                                    <span class="alert alert-danger text-center">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        
+                            <div class="mb-0">
+                                <div>
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light me-1">
+                                        Submit
+                                    </button>
+                                    <button type="reset" class="btn btn-secondary waves-effect">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        
+
+                    </div>
+                </div>
+                <!-- end card -->
+
+                
+                <!-- end card -->
+            </div> <!-- end col -->
+        </div>
+        <!-- end row -->
+    </div> <!-- container-fluid -->
+</div>
+
+
+
+
+@push('scripts')
+<script>
+    $(function() {
+        
+
+        // Automatically generate slug from the name input
+        $("input[name='name']").on("input", function() {
+            $("input[name='slug']").val(stringToSlug($(this).val()));
+        });
+
+        // Function to convert text to slug
+        function stringToSlug(text) {
+            return text
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric characters with a hyphen
+                .replace(/^-+|-+$/g, '');   // Remove leading and trailing hyphens
+        }
+    });
+</script>
+
+    
+@endpush
+
+@endsection
